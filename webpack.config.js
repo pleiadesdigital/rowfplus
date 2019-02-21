@@ -5,5 +5,17 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./public/js"),
     filename: "main.js"
+  },
+  module: {
+    rules: [
+      {
+        loader: 'babel-loader',
+        query: {
+          presets: ["env"]
+        },
+        test: /\.js$/,
+        exclude: /node_modules/
+      }
+    ]
   }
 }
