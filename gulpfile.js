@@ -8,6 +8,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
 var sass = require('gulp-sass');
 var browserSync = require("browser-sync").create();
+var webpack = require('webpack');
 
 
 /* FILE PATHS */
@@ -37,6 +38,17 @@ gulp.task('styles', function(){
     // .pipe(livereload());
 });
 
+// TASK Scripts JS
+gulp.task('scripts', function(callback) {
+  webpack(require('./webpack.config'), function(err, stats) {
+    if (err) {
+      console.log(err.toString());
+    }
+    console.log(stats.toString());
+    callback();
+  });
+});
+
 // WATCH BrowserSync
 gulp.task('watch', function() {
   browserSync.init({
@@ -54,6 +66,10 @@ gulp.task('watch', function() {
     gulp.start('cssInject');
   });
 
+  watch(SCRIPTS_PATH, function() {
+    gulp.start('scriptsRefresh');
+  });
+
 });
 
 /* BrowserSync's CSS Inject */
@@ -62,6 +78,10 @@ gulp.task('cssInject', ['styles'], function() {
     .pipe(browserSync.stream());
 });
 
+/* BrowserSync's SCRIPTS Refresh */
+gulp.task('scriptsRefresh', ['scripts'], function(){
+  browserSync.reload();
+});
 
 // Default
 gulp.task('default', function () {
