@@ -7,7 +7,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
 var sass = require('gulp-sass');
-var babel = require('gulp-babel');
 var browserSync = require("browser-sync").create();
 
 
@@ -62,7 +61,6 @@ gulp.task('cssInject', ['styles'], function() {
   return gulp.src(DIST_PATH)
     .pipe(browserSync.stream());
 });
-
 
 
 // Default
